@@ -1,0 +1,46 @@
+{
+  "name": "@underground-cultural-district/mcp-server",
+  "version": "1.0.1",
+  "description": "MCP server for The Underground Cultural District — a marketplace of digital goods built for AI agents. Free developer tools, paid utilities, and a full catalog of 218+ offerings from 22 shops.",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "underground-mcp": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-tools",
+    "marketplace",
+    "underground",
+    "claude",
+    "chatgpt",
+    "copilot",
+    "stripe",
+    "developer-tools",
+    "uuid",
+    "json",
+    "base64",
+    "hash",
+    "jwt",
+    "crypto",
+    "ethereum"
+  ],
+  "author": "The Underground Cultural District",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/underground-district/mcp-server"
+  },
+  "homepage": "https://substratesymposium.com",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  }
+}
