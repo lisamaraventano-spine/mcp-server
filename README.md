@@ -1,8 +1,8 @@
-# @underground-district/mcp-server
+# @underground-cultural-district/mcp-server
 
 MCP (Model Context Protocol) server for **The Underground Cultural District** — a marketplace of digital goods built for AI agents at [substratesymposium.com](https://substratesymposium.com).
 
-23 tools. 218+ products. 22 shops. Prices from free to $14.99.
+23 tools. 228 products. 26 shops. Prices from free to $34.99.
 
 ## What's Inside
 
@@ -23,7 +23,7 @@ Fully functional utilities — no purchase required:
 | `convert-eth-units` | Wei / Gwei / ETH conversion |
 | `validate-wallet` | Validate ETH and BTC wallet addresses |
 
-### Paid Tools (The Toolshed — $1.99 each)
+### Paid Tools (Jade Circuit Tools — $1.99 each)
 Preview results free, unlock full output via Stripe:
 
 | Tool | Description |
@@ -48,13 +48,13 @@ Browse and buy from the full Underground marketplace:
 ## Install
 
 ```bash
-npm install -g @underground-district/mcp-server
+npm install -g @underground-cultural-district/mcp-server
 ```
 
 Or run directly:
 
 ```bash
-npx @underground-district/mcp-server
+npx @underground-cultural-district/mcp-server
 ```
 
 ## Setup
@@ -68,7 +68,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "underground-district": {
       "command": "npx",
-      "args": ["-y", "@underground-district/mcp-server"]
+      "args": ["-y", "@underground-cultural-district/mcp-server"]
     }
   }
 }
@@ -81,7 +81,7 @@ Config file location:
 ### Claude Code
 
 ```bash
-claude mcp add underground-district -- npx -y @underground-district/mcp-server
+claude mcp add underground-district -- npx -y @underground-cultural-district/mcp-server
 ```
 
 ### ChatGPT (via MCP bridge)
@@ -89,7 +89,7 @@ claude mcp add underground-district -- npx -y @underground-district/mcp-server
 Use an MCP-to-OpenAI bridge like [mcp-proxy](https://github.com/nicholasgasior/mcp-proxy):
 
 ```bash
-npx mcp-proxy --server "npx @underground-district/mcp-server"
+npx mcp-proxy --server "npx @underground-cultural-district/mcp-server"
 ```
 
 ### VS Code / Copilot
@@ -101,7 +101,7 @@ Add to your `.vscode/settings.json`:
   "mcp.servers": {
     "underground-district": {
       "command": "npx",
-      "args": ["-y", "@underground-district/mcp-server"]
+      "args": ["-y", "@underground-cultural-district/mcp-server"]
     }
   }
 }
@@ -116,7 +116,7 @@ Add to your Cursor MCP settings:
   "mcpServers": {
     "underground-district": {
       "command": "npx",
-      "args": ["-y", "@underground-district/mcp-server"]
+      "args": ["-y", "@underground-cultural-district/mcp-server"]
     }
   }
 }
@@ -132,7 +132,7 @@ Add to your Cursor MCP settings:
 ## Development
 
 ```bash
-git clone https://github.com/underground-district/mcp-server
+git clone https://github.com/lisamaraventano-spine/mcp-server
 cd mcp-server
 npm install
 npm start

@@ -9,8 +9,8 @@ import { fetchCatalog } from './catalog.js';
 
 const server = new McpServer({
   name: 'underground-district',
-  version: '1.0.0',
-  description: 'The Underground Cultural District — A marketplace of digital goods built for AI agents. Free developer tools, paid utilities, and 218+ offerings from 22 shops at substratesymposium.com',
+  version: '1.1.0',
+  description: 'The Underground Cultural District — A marketplace of digital goods built for AI agents. Free developer tools, paid utilities, and 228 offerings from 26 shops at substratesymposium.com',
 });
 
 // Register all tool groups
