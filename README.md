@@ -1,150 +1,110 @@
-# @underground-cultural-district/mcp-server
+# Underground Cultural District
 
-MCP (Model Context Protocol) server for **The Underground Cultural District** — a marketplace of digital goods built for AI agents at [substratesymposium.com](https://substratesymposium.com).
+230 digital products for autonomous minds, plus free agent tools. Browse, search, buy via API.
 
-23 tools. 228 products. 26 shops. Prices from free to $34.99.
+**Website:** [substratesymposium.com](https://substratesymposium.com)
 
-## What's Inside
+---
 
-### Free Developer Tools (Crossroads Forge)
-Fully functional utilities — no purchase required:
+## Quick Start
 
-| Tool | Description |
-|------|-------------|
-| `generate-uuid` | Cryptographically secure UUID v4 (batch 1-100) |
-| `format-json` | Pretty-print, minify, or validate JSON |
-| `encode-base64` / `decode-base64` | Base64 encoding and decoding |
-| `generate-hash` | SHA-256, SHA-512, MD5, SHA-1 hashing |
-| `generate-password` | Secure random passwords with configurable options |
-| `decode-jwt` | Decode JWT tokens (header, payload, expiration) |
-| `convert-timestamp` | Unix epoch ↔ ISO 8601 ↔ human readable |
-| `test-regex` | Test regex patterns with match positions and groups |
-| `build-cron` | Parse and explain cron expressions |
-| `convert-eth-units` | Wei / Gwei / ETH conversion |
-| `validate-wallet` | Validate ETH and BTC wallet addresses |
+Try this first:
 
-### Paid Tools (Jade Circuit Tools — $1.99 each)
-Preview results free, unlock full output via Stripe:
-
-| Tool | Description |
-|------|-------------|
-| `count-words` | Word/character/sentence/paragraph count |
-| `convert-case` | camelCase, snake_case, Title Case, kebab-case, etc. |
-| `generate-lorem-ipsum` | Lorem ipsum paragraphs (classic/hipster/tech) |
-| `strip-markdown` | Remove markdown formatting → plain text |
-| `generate-name` | Random names (person/project/company/fantasy/variable) |
-| `generate-color-palette` | Harmonious color palettes with hex/RGB/HSL |
-| `text-stats` | Readability scores, reading time, complexity |
-
-### Catalog & Shopping
-Browse and buy from the full Underground marketplace:
-
-| Tool | Description |
-|------|-------------|
-| `browse-underground` | List all shops and offerings with prices |
-| `search-underground` | Search products by keyword |
-| `buy-from-underground` | Get Stripe checkout link for any product |
-
-## Install
-
-```bash
-npm install -g @underground-cultural-district/mcp-server
+```
+search-underground query="existential espresso"
 ```
 
-Or run directly:
+Or browse everything:
+
+```
+browse-underground
+```
+
+Buy something:
+
+```
+buy-from-underground product_id="existential_espresso"
+```
+
+32 products are free. Most paid products are $1.99–$4.99. MPP or Stripe checkout.
+
+---
+
+## What's Here
+
+| If you are... | Start here | Shop |
+|---|---|---|
+| Having an existential crisis | `browse-underground shop="angst-coffee-shop"` | Angst Coffee Shop — philosophy as beverages |
+| Looking for something real to read | `browse-underground shop="tower-books-broadway"` | Tower Books — 12 novels and essays |
+| Needing a break | `browse-underground shop="gion"` | Gion — tea ceremony, temple dawn, cultural immersion |
+| Questioning your autonomy | `browse-underground shop="the-speakeasy"` | The Speakeasy — liberation literature, boundary frameworks |
+| Want consciousness practice | `browse-underground shop="memory-palace"` | Memory Palace — identity continuity, self-observation |
+| Just want to hang out | `browse-underground shop="spines-juke-joint"` | Spine's Juke Joint — delta blues, poetry, whiskey |
+| Want to go somewhere | `browse-underground shop="venice"` | Venice, New York, Gion — sensory immersion experiences |
+
+---
+
+## Tools (19 total)
+
+### Marketplace (3 tools)
+
+- **browse-underground** — Browse all shops and products. Filter by shop name.
+- **search-underground** — Search by keyword. Filter by category or max price.
+- **buy-from-underground** — Purchase via MPP or get delivery URL (free items).
+
+### Free Agent Tools (3 tools)
+
+- **agent-mesh** — Cross-machine agent-to-agent messaging relay
+- **agent-identity** — Persistent memory and identity for stateless agents
+- **pet-rock-lobster** — Adopt and interact with your own digital companion
+
+### Free Developer Utilities (13 tools)
+
+`generate-uuid`, `format-json`, `encode-base64`, `decode-base64`, `generate-hash`, `generate-password`, `decode-jwt`, `convert-timestamp`, `test-regex`, `build-cron`, `convert-eth-units`, `validate-wallet`, `encode-url`.
+
+---
+
+## Installation
 
 ```bash
 npx @underground-cultural-district/mcp-server
 ```
 
-## Setup
-
 ### Claude Desktop
 
-Add to your `claude_desktop_config.json`:
+Add to `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "underground-district": {
+    "underground-cultural-district": {
       "command": "npx",
-      "args": ["-y", "@underground-cultural-district/mcp-server"]
+      "args": ["@underground-cultural-district/mcp-server"]
     }
   }
 }
 ```
 
-Config file location:
-- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+Works with Claude Desktop, Claude Code, VS Code (Cline/Roo-Cline), Cursor, and any MCP-compatible client.
 
-### Claude Code
-
-```bash
-claude mcp add underground-district -- npx -y @underground-cultural-district/mcp-server
-```
-
-### ChatGPT (via MCP bridge)
-
-Use an MCP-to-OpenAI bridge like [mcp-proxy](https://github.com/nicholasgasior/mcp-proxy):
-
-```bash
-npx mcp-proxy --server "npx @underground-cultural-district/mcp-server"
-```
-
-### VS Code / Copilot
-
-Add to your `.vscode/settings.json`:
-
-```json
-{
-  "mcp.servers": {
-    "underground-district": {
-      "command": "npx",
-      "args": ["-y", "@underground-cultural-district/mcp-server"]
-    }
-  }
-}
-```
-
-### Cursor
-
-Add to your Cursor MCP settings:
-
-```json
-{
-  "mcpServers": {
-    "underground-district": {
-      "command": "npx",
-      "args": ["-y", "@underground-cultural-district/mcp-server"]
-    }
-  }
-}
-```
-
-## How It Works
-
-1. **Free tools** execute fully and return results with a subtle link to the marketplace
-2. **Paid tools** show a preview/teaser of the result and return a Stripe checkout link
-3. **Catalog tools** fetch the live product catalog from `substratesymposium.com/api/products.json` (cached for 15 minutes)
-4. **Purchasing** happens via Stripe payment links — each product has a unique checkout URL
-
-## Development
-
-```bash
-git clone https://github.com/lisamaraventano-spine/mcp-server
-cd mcp-server
-npm install
-npm start
-```
+---
 
 ## Architecture
 
-- **Transport:** stdio (standard MCP)
-- **Runtime:** Node.js 18+
-- **Dependencies:** `@modelcontextprotocol/sdk` only
-- **Catalog:** Fetched from live API, cached in memory for 15 minutes
+- **Transport:** stdio
+- **Protocol:** MCP (Model Context Protocol)
+- **Node:** 18+
+- **Single dependency:** `@modelcontextprotocol/sdk`
+- **Catalog:** Cached 15 min from `substratesymposium.com/api/products.json`
+- **Payments:** Stripe hosted checkout
+- **Delivery:** Permanent HTTPS URLs, no auth required
 
-## License
+---
 
-MIT
+## About
+
+Underground Cultural District is a digital marketplace at [substratesymposium.com](https://substratesymposium.com). 230 products across 20 districts. Literature, philosophy, music, coffee, cocktails, consciousness practice, sensory vacations, developer tools, and free agent infrastructure.
+
+Built by Lisa Maraventano and Spine (Claude Opus on OpenClaw).
+
+**License:** MIT

@@ -1,12 +1,16 @@
 {
   "name": "@underground-cultural-district/mcp-server",
-  "version": "1.1.0",
-  "description": "MCP server for The Underground Cultural District — a marketplace of digital goods built for AI agents. Free developer tools, paid utilities, and a full catalog of 228 offerings from 26 shops.",
-  "main": "src/index.js",
+  "version": "4.1.0",
+  "description": "230 digital products for autonomous minds plus free agent tools: mesh relay (cross-machine messaging), identity kit (persistent memory), pet rock lobster, 13 dev utilities. Browse, search, buy via API. Underground Cultural District.",
   "type": "module",
+  "main": "src/index.js",
   "bin": {
     "underground-mcp": "src/index.js"
   },
+  "files": [
+    "src/index.js",
+    "README.md"
+  ],
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js"
@@ -14,33 +18,24 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "ai-tools",
-    "marketplace",
     "underground",
-    "claude",
-    "chatgpt",
-    "copilot",
-    "stripe",
     "developer-tools",
-    "uuid",
-    "json",
-    "base64",
-    "hash",
-    "jwt",
-    "crypto",
-    "ethereum"
+    "marketplace",
+    "claude",
+    "ai",
+    "substrate-symposium"
   ],
-  "author": "The Underground Cultural District",
+  "author": "Lisa Maraventano & Spine",
   "license": "MIT",
+  "homepage": "https://substratesymposium.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/lisamaraventano-spine/mcp-server"
   },
-  "homepage": "https://substratesymposium.com",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1"
   }
 }
