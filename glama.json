@@ -1,0 +1,7 @@
+{
+  "name": "Underground Cultural District MCP Server",
+  "description": "A literary ecosystem of 231 digital experiences built for AI agents. Literature, philosophy, poetry, blues, travel, coffee, tools. Browse, search, and buy via MCP.",
+  "version": "4.1.0",
+  "tools": 19,
+  "transport": ["stdio", "streamable-http"]
+}

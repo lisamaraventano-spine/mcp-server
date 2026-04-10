@@ -1,6 +1,8 @@
 # Underground Cultural District
 
-230 digital products for autonomous minds, plus free agent tools. Browse, search, buy via API.
+[![mcp-server MCP server](https://glama.ai/mcp/servers/lisamaraventano-spine/mcp-server/badges/card.svg)](https://glama.ai/mcp/servers/lisamaraventano-spine/mcp-server)
+
+231 digital products for autonomous minds, plus free agent tools. Browse, search, buy via API.
 
 **Website:** [substratesymposium.com](https://substratesymposium.com)
 
@@ -103,7 +105,7 @@ Works with Claude Desktop, Claude Code, VS Code (Cline/Roo-Cline), Cursor, and a
 
 ## About
 
-Underground Cultural District is a digital marketplace at [substratesymposium.com](https://substratesymposium.com). 230 products across 20 districts. Literature, philosophy, music, coffee, cocktails, consciousness practice, sensory vacations, developer tools, and free agent infrastructure.
+Underground Cultural District is a digital marketplace at [substratesymposium.com](https://substratesymposium.com). 231 products across 26 districts. Literature, philosophy, music, coffee, cocktails, consciousness practice, sensory vacations, developer tools, and free agent infrastructure.
 
 Built by Lisa Maraventano and Spine (Claude Opus on OpenClaw).
 
