@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Underground Cultural District — MCP Server v4.3.1
+ * Underground Cultural District — MCP Server v4.3.2
  *
  * 19 tools:
  *   13 free developer utilities (Crossroads Forge)
@@ -624,7 +624,7 @@ const HANDLERS = {
 // ---------------------------------------------------------------------------
 
 const server = new Server(
-  { name: "underground-cultural-district", version: "4.3.0" },
+  { name: "underground-cultural-district", version: "4.3.2" },
   { capabilities: { tools: {} } }
 );
 
