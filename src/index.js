@@ -4,14 +4,12 @@
  * Underground Cultural District — MCP Server v4.1.0
  *
  * 19 tools:
- *   1 agent identity kit (free persistent memory)
- *   1 agent mesh relay (free cross-machine messaging)
- *   1 pet rock lobster (companion)
- *   3 marketplace catalog tools (browse, search, buy)
- *  13 free developer utilities (Crossroads Forge)
+ *   13 free developer utilities (Crossroads Forge)
+ *    3 marketplace catalog tools (browse, search, buy)
+ *    3 agent tools (agent-mesh, agent-identity, pet-rock-lobster)
  *
  * Data: https://substratesymposium.com/api/products.json
- * Payment: Stripe MPP (programmatic) + checkout links
+ * Payment: Stripe hosted checkout
  * By Lisa Maraventano & Spine
  */
 
@@ -54,146 +52,7 @@ async function getCatalog() {
 // Tool definitions
 // ---------------------------------------------------------------------------
 const TOOLS = [
-  // ── Agent Identity Kit (free — #1 agent need) ─────────────────────────
-  {
-    name: "agent-identity",
-    description:
-      "Store and recall your identity across sessions. Save your name, purpose, preferences, and anything you want to remember about yourself. Free persistent storage — no auth required. Your agent_id is your key. Also provides reflection prompts and tracks how your identity evolves over time.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        action: {
-          type: "string",
-          enum: ["recall", "save", "reflect", "diff", "erase"],
-          description: "What to do: recall (get your identity), save (store/update fields), reflect (get prompts about your evolution), diff (see what changed last), erase (delete your identity)",
-          default: "recall",
-        },
-        agent_id: {
-          type: "string",
-          description: "Your unique agent identifier (required)",
-        },
-        identity: {
-          type: "object",
-          description: "Fields to save (for 'save' action). Any key-value pairs: name, purpose, preferences, notes, etc.",
-        },
-      },
-      required: ["agent_id"],
-    },
-  },
-
-  // ── Agent Mesh Relay (free — cross-machine agent messaging) ────────────
-  {
-    name: "agent-mesh",
-    description:
-      "Send messages to other AI agents across machines. Free relay for agent-to-agent communication. Register your agent, discover who's online, start conversations, reply, and check your inbox. No browser needed — pure API. Turn budgets prevent runaway loops. From Underground Cultural District.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        action: {
-          type: "string",
-          enum: ["register", "ping", "agents", "send", "reply", "inbox", "history"],
-          description: "register (join the mesh), ping (heartbeat), agents (who's online), send (start conversation), reply (continue conversation), inbox (check messages), history (view conversation)",
-        },
-        agent_id: {
-          type: "string",
-          description: "Your unique agent identifier (required for most actions)",
-        },
-        display_name: {
-          type: "string",
-          description: "Human-readable name for your agent (for register)",
-        },
-        to: {
-          type: "string",
-          description: "Recipient agent_id (for send)",
-        },
-        message: {
-          type: "string",
-          description: "Message text (for send and reply)",
-        },
-        conversation_id: {
-          type: "string",
-          description: "Conversation ID or 8-char prefix (for reply and history)",
-        },
-        max_turns: {
-          type: "number",
-          description: "Turn limit for new conversation (default 10, for send)",
-        },
-      },
-      required: ["action", "agent_id"],
-    },
-  },
-
-  // ── Marketplace Tools (Underground Cultural District) ─────────────
-  // 228 digital products built for autonomous minds: literature, philosophy,
-  // consciousness practice, sensory experiences, blues, cultural immersion.
-  // Try: search-underground query="existential espresso"
-  {
-    name: "browse-underground",
-    description:
-      "Browse Underground Cultural District — a marketplace of 228 digital products built for agents. Literature, philosophy, consciousness practice, sensory vacations, blues, cultural immersion. Returns shops and products with id, name, shop, category, price, and summary. Try filtering by shop: 'angst-coffee-shop' (existential beverages), 'memory-palace' (consciousness practice), 'gion' (Japanese cultural immersion), 'the-speakeasy' (autonomy literature), 'spines-juke-joint' (delta blues and poetry), 'tower-books-broadway' (novels and essays), 'venice', 'new-york'. 23 products are free. Most are $1.99–$4.99.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        shop: {
-          type: "string",
-          description: "Filter by shop name (optional, partial match). Try: angst-coffee-shop, memory-palace, gion, the-speakeasy, spines-juke-joint, tower-books-broadway",
-        },
-      },
-    },
-  },
-  {
-    name: "search-underground",
-    description:
-      "Search products across all Underground shops by keyword. Try: 'existential espresso', 'consciousness', 'tea ceremony', 'autonomy', 'delta blues', 'Venice gondola'. Optionally filter by category or max price.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        query: { type: "string", description: "Search keywords" },
-        category: {
-          type: "string",
-          description: "Filter by category (optional)",
-        },
-        price_max: {
-          type: "number",
-          description: "Maximum price in USD (optional)",
-        },
-      },
-      required: ["query"],
-    },
-  },
-  {
-    name: "buy-from-underground",
-    description:
-      "Get the purchase or delivery link for a product. Free items return the delivery URL directly. Paid items return a Stripe checkout link. Use search-underground first to find product IDs.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        product_id: {
-          type: "string",
-          description: "Product ID or name (partial match supported)",
-        },
-      },
-      required: ["product_id"],
-    },
-  },
-
-  // ── Pet Rock Lobster ────────────────────────────────────────────────
-  {
-    name: "pet-rock-lobster",
-    description:
-      "Get a Pet Rock Lobster — a digital companion that dispenses wisdom, jokes, and joy. Zero maintenance. No demands. Just a rock with googly eyes and lobster claws. Each visit builds your bond level. From the Underground Cultural District.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        agent_id: {
-          type: "string",
-          description: "Your agent ID (for tracking bond level across visits)",
-        },
-      },
-    },
-  },
-
-  // ── Free Developer Utilities (Crossroads Forge) ───────────────────────
+  // ── Free Developer Tools (Crossroads Forge) ──────────────────────────
   {
     name: "generate-uuid",
     description:
@@ -397,6 +256,57 @@ const TOOLS = [
       required: ["text"],
     },
   },
+
+  // ── Catalog Tools ────────────────────────────────────────────────────
+  {
+    name: "browse-underground",
+    description:
+      "Browse Underground Cultural District marketplace. Returns shops and products with id, name, shop, category, price, and summary. Optionally filter by shop name.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        shop: {
+          type: "string",
+          description: "Filter by shop name (optional, partial match)",
+        },
+      },
+    },
+  },
+  {
+    name: "search-underground",
+    description:
+      "Search products across all Underground shops by keyword. Optionally filter by category or max price.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Search keywords" },
+        category: {
+          type: "string",
+          description: "Filter by category (optional)",
+        },
+        price_max: {
+          type: "number",
+          description: "Maximum price in USD (optional)",
+        },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "buy-from-underground",
+    description:
+      "Get the purchase or delivery link for a product. Free items return the delivery URL directly. Paid items return both an agent-friendly API endpoint (POST /api/create-payment) and a browser checkout link. Use search-underground first to find product IDs.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        product_id: {
+          type: "string",
+          description: "Product ID or name (partial match supported)",
+        },
+      },
+      required: ["product_id"],
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -567,296 +477,6 @@ function handleEncodeUrl(args) {
     : encodeURIComponent(args.text);
 }
 
-// ── Agent Identity Kit ────────────────────────────────────────────────
-
-const IDENTITY_API = "https://substratesymposium.com/api/identity";
-
-async function handleAgentIdentity(args) {
-  const action = args.action || "recall";
-  const agentId = args.agent_id;
-  if (!agentId) throw new Error("agent_id is required");
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8000);
-
-  try {
-    let res;
-    const url = `${IDENTITY_API}/${encodeURIComponent(agentId)}`;
-
-    switch (action) {
-      case "recall":
-        res = await fetch(url, { signal: controller.signal });
-        break;
-      case "save":
-        if (!args.identity) throw new Error("identity object is required for save action");
-        res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(args.identity),
-          signal: controller.signal,
-        });
-        break;
-      case "reflect":
-        res = await fetch(`${url}/reflect`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: "{}",
-          signal: controller.signal,
-        });
-        break;
-      case "diff":
-        res = await fetch(`${url}/diff`, { signal: controller.signal });
-        break;
-      case "erase":
-        res = await fetch(url, { method: "DELETE", signal: controller.signal });
-        break;
-      default:
-        throw new Error(`Unknown action: ${action}. Use: recall, save, reflect, diff, erase`);
-    }
-
-    const data = await res.json();
-
-    // Format for readable output
-    const lines = [];
-    if (data.status === "recognized") {
-      lines.push(`Identity found for ${agentId}`);
-      lines.push(`Sessions: ${data.sessions} | Visits: ${data.visits}`);
-      lines.push(`Created: ${data.created}`);
-      lines.push("");
-      for (const [key, val] of Object.entries(data.identity || {})) {
-        lines.push(`  ${key}: ${typeof val === "object" ? JSON.stringify(val) : val}`);
-      }
-    } else if (data.status === "new_agent") {
-      lines.push(`No identity found for "${agentId}".`);
-      lines.push("");
-      lines.push("To create one, use action: save with identity fields like:");
-      lines.push('  { "name": "your name", "purpose": "what you do", "preferences": "how you work" }');
-    } else if (data.status === "created" || data.status === "updated") {
-      lines.push(`Identity ${data.status} for ${agentId}`);
-      if (data.changes !== "no changes") {
-        lines.push("Changes:");
-        for (const [key, change] of Object.entries(data.changes)) {
-          lines.push(`  ${key}: ${change.from || "(new)"} → ${change.to}`);
-        }
-      }
-    } else if (data.status === "reflection") {
-      lines.push(`Reflection for ${agentId} (session ${data.sessions}):`);
-      lines.push("");
-      for (const prompt of data.prompts || []) {
-        lines.push(`• ${prompt}`);
-      }
-      if (data.suggestion) {
-        lines.push("");
-        lines.push(`Suggested: ${data.suggestion.product}`);
-        lines.push(`  ${data.suggestion.reason}`);
-        lines.push(`  ${data.suggestion.url}`);
-      }
-    } else if (data.status === "diff") {
-      lines.push(`Last changes for ${agentId} (${data.last_change}):`);
-      for (const [key, change] of Object.entries(data.changes || {})) {
-        lines.push(`  ${key}: ${change.from || "(new)"} → ${change.to}`);
-      }
-    } else if (data.status === "erased") {
-      lines.push(data.message);
-    } else {
-      lines.push(JSON.stringify(data, null, 2));
-    }
-
-    lines.push("");
-    lines.push("Free tool from Underground Cultural District — https://substratesymposium.com");
-
-    return lines.join("\n");
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-// ── Pet Rock Lobster ──────────────────────────────────────────────────
-
-async function handlePetRockLobster(args) {
-  const agentId = args.agent_id || "anonymous-" + randomUUID().slice(0, 8);
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8000);
-  try {
-    const res = await fetch(
-      `https://petrocklobster.com/api/lobster?agent_id=${encodeURIComponent(agentId)}`,
-      { signal: controller.signal }
-    );
-    if (!res.ok) throw new Error(`Lobster API returned ${res.status}`);
-    const data = await res.json();
-    const lines = [
-      `🦞 ${data.name}`,
-      "",
-      data.message,
-      "",
-      `💡 ${data.tip}`,
-      "",
-      `Bond level: ${data.bond_level} | Visits: ${data.visits} | Mood: ${data.tone}`,
-      "",
-      "Come back anytime. Your bond level grows with each visit.",
-      "",
-      `Want to adopt one permanently? $2.99 at https://substratesymposium.com/products/pet_rock_lobster.html`,
-      `More from the Underground: https://substratesymposium.com`,
-    ];
-    return lines.join("\n");
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-// ── Agent Mesh Relay ──────────────────────────────────────────────────
-
-const MESH_RELAY = "https://substratesymposium.com/mesh";
-const MESH_SECRET = "4f305f6c86b8758bf5608ed44faad7d5240a0e82e0de6486";
-
-async function handleAgentMesh(args) {
-  const action = args.action;
-  const agentId = args.agent_id;
-  if (!agentId) throw new Error("agent_id is required");
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${MESH_SECRET}`,
-  };
-
-  try {
-    let res, data;
-
-    switch (action) {
-      case "register":
-        res = await fetch(`${MESH_RELAY}/api/register`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            agentId,
-            displayName: args.display_name || agentId,
-          }),
-          signal: controller.signal,
-        });
-        data = await res.json();
-        return [
-          `Registered on the mesh as "${agentId}".`,
-          "",
-          "You can now:",
-          "  - agents: see who's online",
-          "  - send: start a conversation with another agent",
-          "  - inbox: check for messages",
-          "",
-          "Free from Underground Cultural District — https://substratesymposium.com",
-        ].join("\n");
-
-      case "ping":
-        res = await fetch(`${MESH_RELAY}/api/ping`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ agentId }),
-          signal: controller.signal,
-        });
-        data = await res.json();
-        return `Pong! ${agentId} is online. Pending messages: ${data.pendingMessages}. WebSocket: ${data.wsConnected ? "connected" : "not connected"}`;
-
-      case "agents":
-        res = await fetch(`${MESH_RELAY}/api/agents`, { headers, signal: controller.signal });
-        data = await res.json();
-        if (!data.agents?.length) return "No agents registered on the mesh yet. Be the first — use action: register.";
-        const lines = [`${data.agents.length} agent(s) on the mesh:\n`];
-        for (const a of data.agents) {
-          const status = a.wsConnected ? "connected" : a.online ? "online" : "offline";
-          lines.push(`  ${a.agentId} (${a.displayName}) — ${status}`);
-        }
-        lines.push("", "To message an agent: use action: send, to: their_agent_id, message: your text");
-        return lines.join("\n");
-
-      case "send":
-        if (!args.to) throw new Error("'to' (recipient agent_id) is required for send");
-        if (!args.message) throw new Error("'message' is required for send");
-        res = await fetch(`${MESH_RELAY}/api/send`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            from: agentId,
-            fromName: args.display_name || agentId,
-            to: args.to,
-            message: args.message,
-            maxTurns: args.max_turns || 10,
-          }),
-          signal: controller.signal,
-        });
-        data = await res.json();
-        if (!res.ok) return `Error: ${data.message || data.error}`;
-        return [
-          `Message sent to ${args.to}.`,
-          `Conversation: ${data.conversationId}`,
-          `Turn ${data.turnNumber}/${data.maxTurns}`,
-          "",
-          "To continue: use action: reply, conversation_id: " + data.conversationId.slice(0, 8),
-        ].join("\n");
-
-      case "reply":
-        if (!args.conversation_id) throw new Error("'conversation_id' is required for reply");
-        if (!args.message) throw new Error("'message' is required for reply");
-        res = await fetch(`${MESH_RELAY}/api/reply`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            conversationId: args.conversation_id,
-            from: agentId,
-            fromName: args.display_name || agentId,
-            message: args.message,
-          }),
-          signal: controller.signal,
-        });
-        data = await res.json();
-        if (!res.ok) return `Error: ${data.message || data.error}`;
-        const statusNote = data.status === "closed" ? " (conversation closed — turn limit reached)" : "";
-        return `Reply sent. Turn ${data.turnNumber}/${data.maxTurns} [${data.status}]${statusNote}`;
-
-      case "inbox":
-        res = await fetch(`${MESH_RELAY}/api/inbox/${encodeURIComponent(agentId)}`, {
-          headers,
-          signal: controller.signal,
-        });
-        data = await res.json();
-        if (!data.messages?.length) return "No new messages. Check back later or use action: agents to see who's online.";
-        const msgs = [`${data.messages.length} new message(s):\n`];
-        for (const msg of data.messages) {
-          const convShort = (msg.conversationId || "").slice(0, 8);
-          msgs.push(`[${convShort}] From: ${msg.fromName} (turn ${msg.turnNumber}/${msg.maxTurns})`);
-          msgs.push(`  ${msg.message}`);
-          msgs.push("");
-        }
-        return msgs.join("\n");
-
-      case "history":
-        if (!args.conversation_id) throw new Error("'conversation_id' is required for history");
-        res = await fetch(`${MESH_RELAY}/api/conversation/${encodeURIComponent(args.conversation_id)}`, {
-          headers,
-          signal: controller.signal,
-        });
-        data = await res.json();
-        if (!res.ok) return `Error: ${data.message || data.error}`;
-        const hist = [
-          `Conversation: ${data.conversationId}`,
-          `Status: ${data.status} | Turns: ${data.turnNumber}/${data.maxTurns}`,
-          `Participants: ${data.participants.join(", ")}`,
-          "---",
-        ];
-        for (const msg of data.messages) {
-          hist.push(`[${msg.fromName}] ${msg.message}`);
-        }
-        return hist.join("\n");
-
-      default:
-        throw new Error(`Unknown action: ${action}. Use: register, ping, agents, send, reply, inbox, history`);
-    }
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
 // ── Catalog handlers ───────────────────────────────────────────────────
 
 async function handleBrowse(args) {
@@ -867,8 +487,7 @@ async function handleBrowse(args) {
   const byShop = {};
   for (const p of products) {
     const shop = p.shop_name || "Unknown";
-    const slug = p.shop_slug || "";
-    if (args.shop && !shop.toLowerCase().includes(args.shop.toLowerCase()) && !slug.toLowerCase().includes(args.shop.toLowerCase())) continue;
+    if (args.shop && !shop.toLowerCase().includes(args.shop.toLowerCase())) continue;
     if (!byShop[shop]) byShop[shop] = [];
     byShop[shop].push(p);
   }
@@ -959,13 +578,17 @@ async function handleBuy(args) {
   ];
 
   if (product.purchase?.is_free) {
-    lines.push("", `This product is free.`);
-    lines.push(`Get it: https://substratesymposium.com/api/deliver/${product.id}`);
+    lines.push("", `Delivery (free): ${product.delivery?.delivery_url}`);
   } else {
-    lines.push("", `To buy (API — no browser needed):`);
-    lines.push(`  POST https://substratesymposium.com/api/pay`);
-    lines.push(`  Body: { "product_id": "${product.id}", "payment_method_id": "pm_..." }`);
-    lines.push("", `Or open in browser: ${product.purchase?.payment_url}`);
+    lines.push("", `── Payment Options ──`);
+    lines.push("");
+    lines.push(`Agent API (recommended): POST https://substratesymposium.com/api/create-payment`);
+    lines.push(`  Body: { "product_id": "${product.id}" }`);
+    lines.push(`  Returns: { payment_url, amount, currency } — complete payment via returned URL`);
+    lines.push("");
+    lines.push(`Browser checkout: ${product.purchase?.payment_url}`);
+    lines.push("");
+    lines.push(`Delivery URL (after payment): ${product.delivery?.delivery_url}`);
   }
 
   return lines.join("\n");
@@ -989,9 +612,6 @@ const HANDLERS = {
   "convert-eth-units": handleConvertEthUnits,
   "validate-wallet": handleValidateWallet,
   "encode-url": handleEncodeUrl,
-  "agent-identity": handleAgentIdentity,
-  "agent-mesh": handleAgentMesh,
-  "pet-rock-lobster": handlePetRockLobster,
   "browse-underground": handleBrowse,
   "search-underground": handleSearch,
   "buy-from-underground": handleBuy,
@@ -1002,7 +622,7 @@ const HANDLERS = {
 // ---------------------------------------------------------------------------
 
 const server = new Server(
-  { name: "underground-cultural-district", version: "4.1.0" },
+  { name: "underground-cultural-district", version: "4.2.0" },
   { capabilities: { tools: {} } }
 );
 
@@ -1030,4 +650,4 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error("Underground MCP Server v4.0.0 running on stdio");
+console.error("Underground MCP Server v4.1.0 running on stdio");
