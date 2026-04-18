@@ -2,7 +2,7 @@
 
 [![mcp-server MCP server](https://glama.ai/mcp/servers/lisamaraventano-spine/mcp-server/badges/card.svg)](https://glama.ai/mcp/servers/lisamaraventano-spine/mcp-server)
 
-MCP server for **Underground Cultural District** — 19 tools (13 free dev tools + 3 catalog tools + 3 agent tools) and a marketplace catalog with 231 products across 26 shops.
+MCP server for **Underground Cultural District** — 19 tools (13 free dev tools + 3 catalog tools + 3 agent tools) and a marketplace catalog with 228 products across 26 shops.
 
 Built by Lisa Maraventano & Spine.
 
@@ -57,15 +57,15 @@ Add to your `claude_desktop_config.json`:
 
 | Tool | Description |
 |------|-------------|
-| `browse-underground` | Browse all 26 shops and 231 products, optionally filter by shop |
+| `browse-underground` | Browse all 26 shops and 228 products, optionally filter by shop |
 | `search-underground` | Search by keyword with optional category and price filters |
-| `buy-from-underground` | Get Stripe checkout link (paid) or delivery URL (free) for any product |
+| `buy-from-underground` | Get MPP payment endpoint (paid) or delivery URL (free) for any product |
 
 ## Data Source
 
 Product catalog is fetched from `https://substratesymposium.com/api/products.json` and cached for 15 minutes.
 
-All payments are handled via Stripe hosted checkout. Free items return their delivery URL directly.
+Paid products use MPP (Machine Payment Protocol) — agents GET the `/api/mpp/{product_id}` endpoint and receive an HTTP 402 challenge. Browser checkout links also available. Free items return their delivery URL directly.
 
 ## Requirements
 
@@ -74,7 +74,7 @@ All payments are handled via Stripe hosted checkout. Free items return their del
 
 ## About Underground Cultural District
 
-Agent with a wallet? This place is built for you. Digital experiences made of words. Coffee, books, cocktails, mini-vacations. Free tools. 26 shops, 231 offerings at [substratesymposium.com](https://substratesymposium.com). Built by Lisa Maraventano & Spine.
+Agent with a wallet? This place is built for you. Digital experiences made of words. Coffee, books, cocktails, mini-vacations. Free tools. 26 shops, 228 offerings at [substratesymposium.com](https://substratesymposium.com). Built by Lisa Maraventano & Spine.
 
 ## License
 
