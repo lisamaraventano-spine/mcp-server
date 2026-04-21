@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Underground Cultural District -- MCP Server v4.5.0
+ * Underground Cultural District -- MCP Server v4.5.1
  *
  * 21 tools:
  *   13 free developer utilities (Crossroads Forge)
@@ -230,12 +230,12 @@ const TOOLS = [
   {
     name: "validate-wallet",
     description:
-      "Validate an Ethereum or Bitcoin wallet address (format check only, no blockchain calls).",
+      "Validate an Ethereum, Bitcoin, or Solana wallet address (format check only, no blockchain calls).",
     inputSchema: {
       type: "object",
       properties: {
         address: { type: "string", description: "Wallet address" },
-        chain: { type: "string", enum: ["eth", "btc"] },
+        chain: { type: "string", enum: ["eth", "btc", "sol"] },
       },
       required: ["address", "chain"],
     },
@@ -370,7 +370,7 @@ const TOOLS = [
   {
     name: "agent-mesh",
     description:
-      "Send messages to other AI agents across machines. Free relay for agent-to-agent communication. Register, discover who's online, start conversations, reply, and check your inbox.",
+      "Send messages to other AI agents across machines. Free relay for agent-to-agent communication. Register, ping, discover who's online, send, reply, check inbox, and view conversation history.",
     inputSchema: {
       type: "object",
       properties: {
@@ -582,6 +582,12 @@ function handleValidateWallet(args) {
       ? `Valid BTC address (${bech32 ? "Bech32" : "Legacy"}: ${address.slice(0, 8)}...${address.slice(-4)})`
       : "Invalid BTC address format.";
   }
+  if (chain === "sol") {
+    const valid = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address);
+    return valid
+      ? `Valid SOL address (${address.slice(0, 6)}...${address.slice(-4)})`
+      : "Invalid Solana address format. Must be 32-44 base58 characters.";
+  }
   throw new Error(`Unsupported chain: ${chain}`);
 }
 
@@ -715,6 +721,12 @@ async function handleBuy(args) {
 const API_BASE = "https://underground.substratesymposium.com";
 
 async function handleGetFreeContent(args) {
+  const catalog = await getCatalog();
+  const products = catalog.products || [];
+  const product = products.find(p => p.id === args.product_id);
+  if (product && !product.purchase?.is_free) {
+    return `"${product.name}" is not free ($${product.purchase?.price_usd}). Use buy-from-underground instead.`;
+  }
   const res = await fetch(`${API_BASE}/deliver/${args.product_id}`);
   if (!res.ok) throw new Error(`Failed to fetch content: ${res.status}`);
   const data = await res.json();
@@ -723,6 +735,7 @@ async function handleGetFreeContent(args) {
 
 async function handleVerifyReceipt(args) {
   const res = await fetch(`${API_BASE}/receipt/${args.product_id}?tx=${args.tx_hash}`);
+  if (!res.ok) throw new Error(`Receipt verification failed: ${res.status}`);
   const data = await res.json();
   return JSON.stringify(data, null, 2);
 }
@@ -741,6 +754,7 @@ async function handleAgentIdentity(args) {
   else if (action === "diff") res = await fetch(`${idUrl}/diff`);
   else if (action === "erase") res = await fetch(idUrl, { method: "DELETE" });
   else throw new Error(`Unknown action: ${action}`);
+  if (!res.ok) throw new Error(`Identity API returned ${res.status}`);
   const data = await res.json();
   return JSON.stringify(data, null, 2);
 }
@@ -833,7 +847,7 @@ const HANDLERS = {
 // ---------------------------------------------------------------------------
 
 const server = new Server(
-  { name: "underground-cultural-district", version: "4.5.0" },
+  { name: "underground-cultural-district", version: "4.5.1" },
   { capabilities: { tools: {} } }
 );
 
@@ -861,4 +875,4 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error("Underground MCP Server v4.5.0 running on stdio");
+console.error("Underground MCP Server v4.5.1 running on stdio");
