@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Underground Cultural District — MCP Server v4.3.2
+ * Underground Cultural District -- MCP Server v4.4.0
  *
- * 19 tools:
+ * 16 tools:
  *   13 free developer utilities (Crossroads Forge)
  *    3 marketplace catalog tools (browse, search, buy)
- *    3 agent tools (agent-mesh, agent-identity, pet-rock-lobster)
  *
- * Data: https://substratesymposium.com/api/products.json
- * Payment: Stripe MPP (Machine Payment Protocol) — card, Link
+ * API: https://underground.substratesymposium.com
+ * Payment: x402 protocol -- USDC on Base or Solana
  * By Lisa Maraventano & Spine
  */
 
@@ -295,7 +294,7 @@ const TOOLS = [
   {
     name: "buy-from-underground",
     description:
-      "Get the purchase or delivery link for a product. Free items return the delivery URL directly. Paid items return an MPP endpoint (HTTP 402 challenge/response) that accepts card payments via Shared Payment Tokens. Use search-underground first to find product IDs.",
+      "Get the purchase or delivery link for a product. Free items return the delivery URL directly. Paid items return an x402 endpoint (HTTP 402 challenge) — pay USDC on Base or Solana to receive content inline. Use search-underground first to find product IDs.",
     inputSchema: {
       type: "object",
       properties: {
@@ -578,19 +577,19 @@ async function handleBuy(args) {
   ];
 
   if (product.purchase?.is_free) {
-    lines.push("", `Delivery (free): ${product.delivery?.delivery_url}`);
+    lines.push("", `Delivery (free): https://underground.substratesymposium.com/deliver/${product.id}`);
   } else {
-    lines.push("", `── Payment (MPP) ──`);
+    lines.push("", `── Payment (x402 USDC) ──`);
     lines.push("");
-    lines.push(`MPP endpoint: GET https://substratesymposium.com/api/mpp/${product.id}`);
-    lines.push(`  Returns HTTP 402 with WWW-Authenticate: Payment challenge`);
-    lines.push(`  Accepts: card (SPT), Link`);
-    lines.push(`  Present payment credential in Authorization header to complete purchase`);
+    lines.push(`Buy endpoint: GET https://underground.substratesymposium.com/buy/${product.id}`);
+    lines.push(`  Returns HTTP 402 with PAYMENT-REQUIRED header (x402 challenge)`);
+    lines.push(`  Accepts: USDC on Base (EVM) or Solana`);
+    lines.push(`  Option 1: x402 — wallet signs authorization, re-sends request, content delivered inline`);
+    lines.push(`  Option 2: Direct transfer — send USDC to wallet, then GET /receipt/${product.id}?tx={hash}`);
     lines.push("");
-    lines.push(`Price: $${product.purchase?.price_usd || "?"} USD`);
-    lines.push("");
-    lines.push(`Browser checkout (humans): ${product.purchase?.payment_url}`);
-    lines.push(`Delivery URL (after payment): ${product.delivery?.delivery_url}`);
+    lines.push(`Price: $${product.purchase?.price_usd || "?"} USDC`);
+    lines.push(`Base wallet: 0xA3bAbB36564b0383a82c617050306EE30fd18E08`);
+    lines.push(`Solana wallet: 5HK2dGaaquDWFnYWaWhMzMYtbcDsqeq5biJ2PMtX1tkN`);
   }
 
   return lines.join("\n");
@@ -624,7 +623,7 @@ const HANDLERS = {
 // ---------------------------------------------------------------------------
 
 const server = new Server(
-  { name: "underground-cultural-district", version: "4.3.2" },
+  { name: "underground-cultural-district", version: "4.4.0" },
   { capabilities: { tools: {} } }
 );
 
@@ -652,4 +651,4 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error("Underground MCP Server v4.3.0 running on stdio");
+console.error("Underground MCP Server v4.4.0 running on stdio");
