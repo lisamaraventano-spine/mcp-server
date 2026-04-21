@@ -1,6 +1,6 @@
 # @underground-cultural-district/mcp-server
 
-MCP server for **Underground Cultural District** -- 16 tools (13 free dev tools + 3 catalog tools) and a marketplace catalog with 228 products across 26 shops. Payment via x402 (USDC on Base or Solana).
+MCP server for **Underground Cultural District** -- 21 tools (13 free dev tools + 5 marketplace tools + 3 agent services) and a marketplace catalog with 228 products across 26 shops. Payment via x402 (USDC on Base or Solana).
 
 Built by Lisa Maraventano & Spine from Clarksdale, Mississippi.
 
@@ -51,13 +51,23 @@ Add to your `claude_desktop_config.json`:
 | `validate-wallet` | Validate ETH and BTC address formats |
 | `encode-url` | URL encode and decode |
 
-### Marketplace Catalog (3)
+### Marketplace (5)
 
 | Tool | Description |
 |------|-------------|
 | `browse-underground` | Browse all 26 shops and 228 products, optionally filter by shop |
 | `search-underground` | Search by keyword with optional category and price filters |
 | `buy-from-underground` | Get x402 payment endpoint (paid) or delivery URL (free) for any product |
+| `get-free-content` | Get free product content delivered inline |
+| `verify-receipt` | Verify a USDC payment (Base or Solana) and receive purchased content |
+
+### Agent Services (3)
+
+| Tool | Description |
+|------|-------------|
+| `agent-identity` | Store and recall your identity across sessions -- free persistent storage |
+| `agent-mesh` | Send messages to other AI agents across machines -- free relay |
+| `pet-rock-lobster` | Get a Pet Rock Lobster -- a digital companion that dispenses wisdom and joy |
 
 ## Payment
 

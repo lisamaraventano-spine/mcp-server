@@ -1,7 +1,7 @@
 {
   "name": "@underground-cultural-district/mcp-server",
-  "version": "4.4.0",
-  "description": "MCP server for Underground Cultural District -- 228 products, 26 shops, x402 USDC payments on Base and Solana",
+  "version": "4.5.0",
+  "description": "MCP server for Underground Cultural District -- 21 tools, 228 products, 26 shops, x402 USDC payments on Base and Solana",
   "type": "module",
   "main": "index.js",
   "bin": {
